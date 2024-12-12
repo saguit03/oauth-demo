@@ -74,7 +74,7 @@ Cambios respecto al SecurityConfig de la documentación de Spring Boot:
         // introducir sus credenciales
         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
         .redirectUri("https://oauthdebugger.com/")
-        .postLogoutRedirectUri("http://127.0.0.1:8080/")
+        .postLogoutRedirectUri("http://localhost:8080/")
         .scope(OidcScopes.OPENID)
         .scope(OidcScopes.PROFILE)
         // No queremos pedir el consentimiento del cliente en esta demo
@@ -89,7 +89,7 @@ Cambios respecto al SecurityConfig de la documentación de Spring Boot:
 
 https://oauthdebugger.com/
 
-http://127.0.0.1/oauth2/authorize
+http://localhost/oauth2/authorize
 
 https://oauthdebugger.com/debug
 

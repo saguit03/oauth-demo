@@ -1,4 +1,4 @@
-package es.unex.aos.recursos.oauth;
+package es.unex.aos.recursos.config;
 
 import java.time.Duration;
 
