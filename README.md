@@ -90,3 +90,20 @@ Cambios respecto al SecurityConfig de la documentación de Spring Boot:
 https://oauthdebugger.com/
 
 http://127.0.0.1/oauth2/authorize
+
+https://oauthdebugger.com/debug
+
+oidc-client
+
+profile
+(read/write)
+
+code
+
+## Paso 2. Servidor de recursos
+
+https://jwt.io/
+
+## Paso 3. Probar conexión entre ambos servidores
+
+

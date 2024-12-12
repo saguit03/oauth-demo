@@ -1,0 +1,7 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jws-algorithms: RS512
+          jwk-set-uri: http://localhost:9000
