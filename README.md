@@ -1,5 +1,7 @@
 # OAuth Demo Paso a Paso
 
+Presentación: https://www.canva.com/design/DAGZAILOgfo/66ntjtxlcby11hS2LTRl6A/edit?utm_content=DAGZAILOgfo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ## Paso 0. Crear los proyectos
 
 Descargarlo de GitHub: https://github.com/saguit03/oauth-demo
@@ -26,84 +28,70 @@ Dependencies:
 
 https://docs.spring.io/spring-authorization-server/reference/getting-started.html#defining-required-components
 
-Cambios respecto al SecurityConfig de la documentación de Spring Boot:
-
-```java
-  @Bean
-  @Order(2)
-  public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
-      throws Exception {
-    /**
-     * Se configura con una forma de inicio de sesión predeterminada
-     */
-    http
-        .authorizeHttpRequests((authorize) -> authorize
-            .anyRequest().authenticated())
-        .csrf(csrf -> csrf.disable()) // Solo porque estamos en una demo, en un caso real NO se debe deshabilitar
-        // Form login handles the redirect to the login page from the
-        // authorization server filter chain
-        .formLogin(Customizer.withDefaults());
-
-    return http.build();
-  }
-
-  @Bean
-  public UserDetailsService userDetailsService() {
-    UserDetails userDetails = User.builder()
-        .username("aos")
-        .password("{noop}aos") // {noop} para decir que no está codificado
-        .roles("USER")
-        .build();
-
-    return new InMemoryUserDetailsManager(userDetails);
-  }
-
-  @Bean
-  public RegisteredClientRepository registeredClientRepository() {
-    RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
-        .clientId("oidc-client") // Identificador del cliente
-        .clientSecret("{noop}secreto")
-        // Autenticación básica
-        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-        // Obtener un token de acceso del servidor de
-        // autorización
-        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-        // Obtener un nuevo de acceso cuando el
-        // actual ha
-        // expirado, sin que el usuario vuelva a
-        // introducir sus credenciales
-        .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-        .redirectUri("https://oauthdebugger.com/")
-        .postLogoutRedirectUri("http://localhost:8080/")
-        .scope(OidcScopes.OPENID)
-        .scope(OidcScopes.PROFILE)
-        // No queremos pedir el consentimiento del cliente en esta demo
-        // .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-        .build();
-
-    return new InMemoryRegisteredClientRepository(oidcClient);
-  }
-```
+Leer 1-AUTORIZACION.md
 
 ### Probar que funcione el servidor
 
-https://oauthdebugger.com/
+1. Acceder a https://oauthdebugger.com/ e introducir los siguientes datos
 
-http://localhost/oauth2/authorize
+Authorize URI: http://localhost/oauth2/authorize
+Redirect URI: https://oauthdebugger.com/debug
+Client ID: oidc-client
+Scope: profile
+Response type: code
 
-https://oauthdebugger.com/debug
-
-oidc-client
-
-profile
-(read/write)
-
-code
+2. Enviar la petición
+3. En Postman, realizar una petición POST a http://localhost:9000/oauth2/token
+- Completar Authorization:
+  - Basic Auth
+  - Datos del cliente registrados en el paso 1
+- Body
+  - code (token devuelto por el debugger)
+  - grant_type: authorization_code
+  - redirect_uri: https://oauthdebugger.com/debug
+4. Comprobar el token en jwt.io
 
 ## Paso 2. Servidor de recursos
 
-https://jwt.io/
+https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html
 
-## Paso 3. Probar conexión entre ambos servidores
+Leer 2-RECURSOS.md
+
+### Probar conexión entre ambos servidores
+
+Pasos 1-4 igual que al probar el servidor de autorización.
+
+5. Crear una nueva petición en Postman a la dirección: http://localhost:8081/resources/user
+- Auth Type: Bearer token
+- Introducir el JWT obtenido del servidor de autorización
+
+## Paso 4. Crear un cliente de ejemplo
+
+Leer 3-CLIENTE.md y 4-CLIENTE-AUTORIZACION.md
+
+### Probar el cliente
+
+Acceder a http://localhost:8080
 
 
+1. Acceder a https://oauthdebugger.com/ e introducir los siguientes datos
+
+Authorize URI: http://localhost/oauth2/authorize
+Redirect URI: https://oauthdebugger.com/debug
+Client ID: oidc-client
+Scope: profile
+Response type: code
+
+2. Enviar la petición
+3. En Postman, realizar una petición POST a http://localhost:9000/oauth2/token
+- Completar Authorization:
+  - Basic Auth
+  - Datos del cliente registrados en el paso 1
+- Body
+  - code (token devuelto por el debugger)
+  - grant_type: authorization_code
+  - redirect_uri: https://oauthdebugger.com/debug
+4. Comprobar el token en jwt.io
+5. Crear una nueva petición en Postman a la dirección: http://localhost:8081/resources/user
+- Auth Type: Bearer token
+- Introducir el JWT obtenido del servidor de autorización
