@@ -34,11 +34,13 @@ Leer 1-AUTORIZACION.md
 
 1. Acceder a https://oauthdebugger.com/ e introducir los siguientes datos
 
-Authorize URI: http://localhost/oauth2/authorize
+Authorize URI: http://localhost:9000/oauth2/authorize
 Redirect URI: https://oauthdebugger.com/debug
 Client ID: oidc-client
 Scope: profile
 Response type: code
+
+The authorization server will respond with a code, which the client can exchange for tokens on a secure channel. This flow should be used when the application code runs on a secure server (common for MVC and server-rendered pages apps).
 
 2. Enviar la petición
 3. En Postman, realizar una petición POST a http://localhost:9000/oauth2/token
@@ -71,27 +73,18 @@ Leer 3-CLIENTE.md y 4-CLIENTE-AUTORIZACION.md
 
 ### Probar el cliente
 
-Acceder a http://localhost:8080
-
-
-1. Acceder a https://oauthdebugger.com/ e introducir los siguientes datos
-
-Authorize URI: http://localhost/oauth2/authorize
-Redirect URI: https://oauthdebugger.com/debug
-Client ID: oidc-client
-Scope: profile
-Response type: code
-
-2. Enviar la petición
-3. En Postman, realizar una petición POST a http://localhost:9000/oauth2/token
+1. Acceder a http://localhost:8080
+2. Iniciar sesión con los datos de usuario
+3. Copiar el token devuelto
+4. En Postman, realizar una petición POST a http://localhost:9000/oauth2/token
 - Completar Authorization:
   - Basic Auth
-  - Datos del cliente registrados en el paso 1
+  - Datos del cliente registrados en 4-CLIENTE-AUTORIZACION.md
 - Body
-  - code (token devuelto por el debugger)
+  - code: token devuelto en el paso 3.
   - grant_type: authorization_code
-  - redirect_uri: https://oauthdebugger.com/debug
-4. Comprobar el token en jwt.io
-5. Crear una nueva petición en Postman a la dirección: http://localhost:8081/resources/user
+  - redirect_uri: http://localhost:8080/authorized
+5. Comprobar el token en jwt.io
+6. Crear una nueva petición en Postman a la dirección: http://localhost:8081/resources/user
 - Auth Type: Bearer token
-- Introducir el JWT obtenido del servidor de autorización
+- Introducir el JWT obtenido del servidor de autorización en el paso 4.
