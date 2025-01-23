@@ -47,6 +47,8 @@ https://docs.spring.io/spring-authorization-server/reference/getting-started.htm
         .redirectUri("https://oauthdebugger.com/debug")
         .scope(OidcScopes.OPENID)
         .scope(OidcScopes.PROFILE)
+        .scope("read")
+        .scope("write")
         .build();
     return new InMemoryRegisteredClientRepository(oidcClient, oauthClient);
   }

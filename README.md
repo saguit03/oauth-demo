@@ -1,10 +1,47 @@
 # OAuth Demo Paso a Paso
 
-Presentación: https://www.canva.com/design/DAGZAILOgfo/66ntjtxlcby11hS2LTRl6A/edit?utm_content=DAGZAILOgfo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+## Arquitecturas Orientadas a Servicios
+
+### Grado en Ingeniería Informática en Ingeniería del Software  
+
+Curso 2024-2025  
+
+### Estudiantes
+
+- Pablo Fernández González
+- Sara Guillén Torrado
+
+## Material entregado
+
+- Documentación de la memoria del proyecto en PDF.
+- Guía de las prácticas en PDF (también incluida en la memoria).
+- Presentación en PDF. Enlace: https://www.canva.com/design/DAGZAILOgfo/66ntjtxlcby11hS2LTRl6A/edit?utm_content=DAGZAILOgfo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+- Código resuelto:
+ - `autorizacion`
+ - `recursos`
+ - `cliente`
+- Código base: ficheros zip dentro de `\Base` 
+
+## Requisitos del proyecto
+
+- Java 17
+- Spring Boot
+- Maven
+- Postman
+
+Dado que se han utilizado estas tecnologías a lo largo de la asignatura *Arquitecturas Orientadas a Servicios*, no se considera necesario explicar su instalación.  
+
+# Overview del flujo
+
+Es recomendable leer la documentación entregada, ya que se detallan los procesos con mayor claridad.  
 
 ## Paso 0. Crear los proyectos
 
-Descargarlo de GitHub: https://github.com/saguit03/oauth-demo
+Descargarlo de GitHub: https://github.com/saguit03/oauth-demo  
+
+```bash
+git clone https://github.com/saguit03/oauth-demo
+```
 
 O... acceder a Spring Boot Initializr: https://start.spring.io/index.html
 
@@ -67,7 +104,7 @@ Pasos 1-4 igual que al probar el servidor de autorización.
 - Auth Type: Bearer token
 - Introducir el JWT obtenido del servidor de autorización
 
-## Paso 4. Crear un cliente de ejemplo
+## Paso 3. Crear un cliente de ejemplo
 
 Leer 3-CLIENTE.md y 4-CLIENTE-AUTORIZACION.md
 
